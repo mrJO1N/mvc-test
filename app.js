@@ -1,15 +1,15 @@
 /* --------- configure ------------ */
 const express = require("express"),
-  dotenv = require("dotenv"),
-  path = require("path");
+  dotenv = require("dotenv");
 
-const homeRouter = require("./routes/home.js");
+const { withPath } = require("./helpers/fsHelp.js"),
+  homeRouter = require("./routes/home.js");
 
 const app = express();
 app
-  .use(express.static(path.join(__dirname, "view")))
+  .use(express.static(withPath(__dirname + "/view")))
   .disable("etag")
-  .set("views", path.join(__dirname, "view"))
+  .set("views", withPath(__dirname + "/view"))
   .set("view engine", "ejs");
 dotenv.config();
 
