@@ -1,8 +1,7 @@
 /* --------- configure ------------ */
 const express = require("express"),
   dotenv = require("dotenv"),
-  path = require("path"),
-  ejs = require("ejs");
+  path = require("path");
 
 const homeRouter = require("./routes/home.js");
 
@@ -10,9 +9,8 @@ const app = express();
 app
   .use(express.static(path.join(__dirname, "view")))
   .disable("etag")
-  .engine("ejs", ejs.renderFile)
-  .set("view engine", "ejs")
-  .set("views", path.join(__dirname, "view"));
+  .set("views", path.join(__dirname, "view"))
+  .set("view engine", "ejs");
 dotenv.config();
 
 const PORT = process.env.PORT ?? 80;

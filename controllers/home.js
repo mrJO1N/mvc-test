@@ -1,8 +1,19 @@
 const fsPromiced = require("fs/promises");
 const { getFilePath } = require("../helpers/fsHelp.js");
 
-const getHome = (req, res) => {
+const getHtml = (req, res) => {
   res.render(getFilePath("/home/index.ejs"));
 };
 
-module.exports = { getHome };
+const getCssOrJs = (req, res) => {
+  fsPromiced
+    .readFile(getFilePath(req.url))
+    .catch((err) => {
+      console.error(err);
+    })
+    .then((data) => {
+      res.send(data);
+    });
+};
+
+module.exports = { getHtml, getCssOrJs };
