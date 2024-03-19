@@ -1,2 +1,5 @@
 /node_modules
 for git.txt
+/logs
+helpers/logger.js
+.env

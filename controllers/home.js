@@ -16,8 +16,4 @@ const getCssOrJs = (req, res) => {
     });
 };
 
-const getError404 = (req, res) => {
-  res.render(getFilePath("/error/index.ejs"), { errorCode: 404 });
-};
-
-module.exports = { getHtml, getCssOrJs, getError404 };
+module.exports = { getHtml, getCssOrJs };
