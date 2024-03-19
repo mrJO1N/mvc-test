@@ -1,5 +1,5 @@
 const express = require("express");
-const { getHtml, getCssOrJs, getError404 } = require("../controllers/home.js");
+const { getHtml, getCssOrJs } = require("../controllers/home.controller.js");
 
 const router = express.Router();
 

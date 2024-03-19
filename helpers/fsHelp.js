@@ -1,9 +1,9 @@
 const _path = require("path");
-const getFilePath = (path) => {
-  return _path.join(__dirname, "/../view", path);
-};
-const withPath = (pathStr) => {
-  return _path.join(...pathStr.split("/"));
-};
 
-module.exports = { getFilePath, withPath };
+const getFilePathHtml = (path) => _path.join(__dirname, "/../view", path);
+
+const withPath = (pathStr) => _path.join(...pathStr.split("/"));
+
+const getFilePath = (path) => _path.join(__dirname, "/../public", path);
+
+module.exports = { getFilePathHtml, withPath, getFilePath };

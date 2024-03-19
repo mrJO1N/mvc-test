@@ -4,10 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= pageTitle ?? "page" %></title>
-    <link rel="stylesheet" href="home/css/style.css" />
-    <script src="home/js/script.js"></script>
+    <link defer rel="stylesheet" type="text/css" href="css/home.css" />
+    <script defer src="js/home.js"></script>
   </head>
   <body>
     home page
+    <div class="page"></div>
+
+    <style>
+      body {
+        background-color: aqua;
+      }
+    </style>
   </body>
 </html>

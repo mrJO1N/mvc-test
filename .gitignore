@@ -2,4 +2,5 @@
 for git.txt
 /logs
 helpers/logger.js
-.env
+/.env
+/createDB.sql
