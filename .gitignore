@@ -1,6 +1,7 @@
 /node_modules
 for git.txt
 /logs
-helpers/logger.js
-/.env
+helpers/_logger.js
+.env
 /createDB.sql
+helpers/_logger (log4js).js
