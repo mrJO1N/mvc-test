@@ -26,18 +26,19 @@ const PORT = process.env.PORT ?? 80;
 
 /* ----------- main ------------------ */
 app.use((req, res, next) => {
-  logger.error("new logger now!!!");
+  logger.info(`new request ${req.url}`);
   next();
 });
 app.use(express.json());
 app.use(homeRouter, someRouter, usersRouter);
 
 app.get("*", (req, res) => {
-  res.render(getFilePathHtml("/error.ejs"), {
+  res.status(404).render(getFilePathHtml("/error.ejs"), {
     errorCode: 404,
     pageTitle: "error",
   });
+  logger.error("404");
 });
 app.listen(PORT, () =>
-  console.log(`go to http://localhost${PORT !== 80 ? ":" + PORT : ""}/`)
+  logger.info(`run on ${PORT !== 80 ? ":" + PORT : ""} port.`)
 );

@@ -3,6 +3,7 @@ const { getFilePathHtml } = require("../helpers/fsHelp.js"),
 
 const getHtml = (req, res) => {
   res.render(getFilePathHtml("/some.ejs"), { pageTitle: "some" });
+  logger.info("all right");
 };
 
 module.exports = { getHtml };
