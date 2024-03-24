@@ -1,6 +1,6 @@
 const fsPromiced = require("fs/promises");
 const { getFilePathHtml, getFilePath } = require("../helpers/fsHelp.js"),
-  logger = require("../helpers/logger.js");
+  { logger, logAllRight } = require("../helpers/logger.js");
 
 const getHtml = (req, res) => {
   res.render(getFilePathHtml("/home.ejs"), { pageTitle: "home" });

@@ -1,3 +1,5 @@
+const { logger } = require("../helpers/logger.js");
+
 const sendErrorPage = (req, res, codeError) => {
   res.status(codeError).render(getFilePathHtml("/error.ejs"), {
     errorCode: codeError,
