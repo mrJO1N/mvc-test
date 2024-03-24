@@ -1,5 +1,4 @@
 const { transports, format, createLogger } = require("winston");
-
 require("dotenv").config({ path: "../" });
 
 const { withPath } = require("./fsHelp");
@@ -16,4 +15,7 @@ const logger = createLogger({
   level: "debug",
 });
 
-module.exports = logger;
+const logAllRight = () => {
+  logger.info("all right");
+};
+module.exports = { logger, logAllRight };

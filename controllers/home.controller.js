@@ -4,7 +4,7 @@ const { getFilePathHtml, getFilePath } = require("../helpers/fsHelp.js"),
 
 const getHtml = (req, res) => {
   res.render(getFilePathHtml("/home.ejs"), { pageTitle: "home" });
-  logger.info("all right");
+  logAllRight();
 };
 
 const getCssOrJs = (req, res) => {
@@ -16,7 +16,7 @@ const getCssOrJs = (req, res) => {
     .then((data) => {
       res.send(data);
     });
-  logger.info("all right");
+  logAllRight();
 };
 
 module.exports = { getHtml, getCssOrJs };

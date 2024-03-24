@@ -7,11 +7,15 @@ const {
     getFilePath,
     getFilePathHtml,
   } = require("./helpers/fsHelp.js"),
-  logger = require("./helpers/logger.js");
+  { logger } = require("./helpers/logger.js");
 
 const homeRouter = require("./routes/home.router.js"),
   someRouter = require("./routes/some.router.js"),
   usersRouter = require("./routes/users.router.js");
+const {
+  sendError,
+  sendErrorPage,
+} = require("./controllers/errors.controller.js");
 
 const app = express();
 app.disable("etag");
@@ -26,19 +30,17 @@ const PORT = process.env.PORT ?? 80;
 
 /* ----------- main ------------------ */
 app.use((req, res, next) => {
-  logger.info(`new request ${req.url}`);
+  logger.info(`new request: ${req.method} ${req.url}`);
   next();
 });
 app.use(express.json());
 app.use(homeRouter, someRouter, usersRouter);
 
-app.get("*", (req, res) => {
-  res.status(404).render(getFilePathHtml("/error.ejs"), {
-    errorCode: 404,
-    pageTitle: "error",
-  });
-  logger.error("404");
+app.use((req, res) => {
+  sendErrorPage(req, res, 404);
 });
 app.listen(PORT, () =>
-  logger.info(`run on ${PORT !== 80 ? ":" + PORT : ""} port.`)
+  logger.info(
+    `run on ${PORT} port. http://localhost${PORT !== 80 ? ":" + PORT : ""}/`
+  )
 );

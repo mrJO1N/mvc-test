@@ -6,10 +6,10 @@ const router = express.Router();
 
 /* ----------main---------------- */
 
-router.get("/users/:id", users.getUser);
-router.get("/users", users.getUsers);
-router.post("/users", users.createUser);
-router.patch("/users/:id", users.updateUser);
-router.delete("/users/get/", users.deleteUser);
+router.get("/api/users/:id", users.getOne);
+router.get("/api/users", users.getSeveral);
+router.post("/api/users", users.createOne);
+router.patch("/api/users/:id", users.updateOne);
+router.delete("/api/users/:id", users.deleteOne);
 
 module.exports = router;
