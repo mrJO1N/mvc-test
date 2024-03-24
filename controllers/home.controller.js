@@ -7,7 +7,7 @@ const getHtml = (req, res) => {
   logAllRight();
 };
 
-const getCssOrJs = (req, res) => {
+const getOtherFile = (req, res) => {
   fsPromiced
     .readFile(getFilePath(req.url))
     .catch((err) => {
@@ -19,4 +19,4 @@ const getCssOrJs = (req, res) => {
   logAllRight();
 };
 
-module.exports = { getHtml, getCssOrJs };
+module.exports = { getHtml, getOtherFile };
