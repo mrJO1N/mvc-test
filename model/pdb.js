@@ -9,21 +9,14 @@ if (DATABASE_URL) {
   poolConfig = { connectionString: process.env.DATABASE_URL };
 } else {
   poolConfig = {
-    host: process.env.HOSTNAME ?? "localhost",
-    port: process.env.DB_PORT ?? 5432,
-    password: process.env.DB_PASS ?? "Node1",
-    user: process.env.DB_USER ?? "postgres",
-    database: process.env.USERS_DBNAME ?? "users",
+    host: process.env.PGHOST ?? "localhost",
+    port: process.env.PG_PORT ?? 5432,
+    password: process.env.PG_PASS ?? "Node1",
+    user: process.env.PG_USER ?? "postgres",
+    database: process.env.PG_USERS_DBNAME ?? "users",
   };
 }
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  host: process.env.HOSTNAME ?? "localhost",
-  port: process.env.DB_PORT ?? 5432,
-  password: process.env.DB_PASS ?? "Node1",
-  user: process.env.DB_USER ?? "postgres",
-  database: "users",
-});
+const pool = new Pool(poolConfig);
 
 module.exports = pool;
