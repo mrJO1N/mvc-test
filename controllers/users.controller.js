@@ -1,7 +1,11 @@
+const db = require("../model/pdb.js");
+
 const { logger, logAllRight } = require("../helpers/logger.js");
 const { sendError } = require("./errors.controller.js");
 
-const DBNAME = process.env.USERS_DBNAME ?? "public.users";
+require("dotenv").config({ path: "../" });
+
+const DBNAME = "public." + (process.env.USERS_DBNAME ?? "users");
 
 /*
 usersJsonFromClient = {
@@ -11,29 +15,28 @@ usersJsonFromClient = {
 }
 */
 
-const db = require("../model/pdb.js"),
-  sqlQuerys = {
-    getUsers(quantity) {
-      return `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${quantity ?? 1};`;
-    },
-    getUser(id) {
-      return `SELECT * FROM ${DBNAME} WHERE id = ${id}
+const sqlQuerys = {
+  getUsers(quantity) {
+    return `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${quantity ?? 1};`;
+  },
+  getUser(id) {
+    return `SELECT * FROM ${DBNAME} WHERE id = ${id}
       ORDER BY id ASC;`;
-    },
-    createUser(username) {
-      // return `INSERT INTO users VALUES (${username});`;
-      return `INSERT INTO ${DBNAME} (
+  },
+  createUser(username) {
+    // return `INSERT INTO users VALUES (${username});`;
+    return `INSERT INTO ${DBNAME} (
          username) VALUES (
          '${username}'::character varying)
          returning id;`;
-    },
-    deleteUser(id) {
-      return `DELETE FROM ${DBNAME} WHERE (id=${id})`;
-    },
-    updateUser(id, newUsername) {
-      return `UPDATE ${DBNAME} SET username='${newUsername}' WHERE id = ${id}`;
-    },
-  };
+  },
+  deleteUser(id) {
+    return `DELETE FROM ${DBNAME} WHERE (id=${id})`;
+  },
+  updateUser(id, newUsername) {
+    return `UPDATE ${DBNAME} SET username='${newUsername}' WHERE id = ${id}`;
+  },
+};
 
 class User {
   async createOne(req, res) {
