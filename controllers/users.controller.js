@@ -1,9 +1,8 @@
 const db = require("../model/pdb.js");
 
-const { logger, logAllRight } = require("../helpers/logger.js");
 const { sendError } = require("./errors.controller.js");
-
-require("dotenv").config({ path: "../" });
+const { logger, logAllRight } = require("../helpers/logger.js");
+require("dotenv").config();
 
 const DBNAME = "public." + (process.env.USERS_DBNAME ?? "users");
 
@@ -40,12 +39,18 @@ const sqlQuerys = {
 
 class User {
   async createOne(req, res) {
-    const username = req.body.username,
-      { rows: user } = await db
-        .query(sqlQuerys.createUser(username))
-        .catch((err) => {
-          logger.error("db error");
-        });
+    const { username } = req.body;
+
+    if (!username) {
+      res.status(400).send();
+      return logger.error("not enough data");
+    }
+
+    const { rows: user } = await db
+      .query(sqlQuerys.createUser(username))
+      .catch((err) => {
+        logger.error("db error");
+      });
     res.send(user);
     logAllRight();
   }

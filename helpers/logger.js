@@ -1,7 +1,6 @@
 const { transports, format, createLogger } = require("winston");
-require("dotenv").config({ path: "../" });
-
-const { withPath } = require("./fsHelp");
+const { withPath } = require("../helpers/fsHelp");
+require("dotenv").config();
 
 const PATH_TO_LOGS =
   process.env.PATH_TO_LOGS ?? withPath(__dirname + "/../logs/l.log");

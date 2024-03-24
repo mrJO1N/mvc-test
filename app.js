@@ -23,6 +23,7 @@ app
   .use(express.static(withPath(__dirname + "/public")))
   .set("views", withPath(__dirname + "/view"))
   .set("view engine", "ejs");
+app.use(express.json());
 
 dotenv.config();
 
@@ -30,10 +31,13 @@ const PORT = process.env.PORT ?? 80;
 
 /* ----------- main ------------------ */
 app.use((req, res, next) => {
-  logger.info(`new request: ${req.method} ${req.url}`);
+  logger.info(
+    `new request: ${req.method} ${req.url} ${
+      req.url.includes("api") ? JSON.stringify(req.body) : ""
+    }`
+  );
   next();
 });
-app.use(express.json());
 app.use(homeRouter, someRouter, usersRouter);
 
 app.use((req, res) => {
