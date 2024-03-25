@@ -26,7 +26,7 @@ const getCss = (req, res) => {
       logger.error(404);
     })
     .then((data) => {
-      res.contentType("text/css").header("Content-Type", "text/css").send(data);
+      res.type("text/css").set("Content-Type", "text/css").send(data);
     });
 };
 
