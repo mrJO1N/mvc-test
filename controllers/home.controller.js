@@ -21,12 +21,12 @@ const getOtherFile = (req, res) => {
 
 const getCss = (req, res) => {
   fsPromiced
-    .readFile(req.url, "utf-8")
+    .readFile(getFilePath(req.url), "utf-8")
     .catch((err) => {
       logger.error(404);
     })
     .then((data) => {
-      res.type("text/css").set("Content-Type", "text/css").send(data);
+      res.type("text/css").send(data);
     });
 };
 
