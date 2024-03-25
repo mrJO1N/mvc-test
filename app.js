@@ -32,7 +32,7 @@ const PORT = process.env.PORT ?? 80;
 /* ----------- main ------------------ */
 app.use((req, res, next) => {
   logger.info(
-    `new request: ${req.method} ${req.url} ${
+    `${req.method} ${req.url} ${
       req.url.includes("api") ? JSON.stringify(req.body) : ""
     }`
   );

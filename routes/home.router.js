@@ -1,10 +1,14 @@
 const express = require("express");
-const { getHtml, getOtherFile } = require("../controllers/home.controller.js");
+const {
+  getHtml,
+  getOtherFile,
+  getCss,
+} = require("../controllers/home.controller.js");
 
 const router = express.Router();
 
 router.get(["/", "/home"], getHtml);
-router.get([/.css/, /.js/], getOtherFile);
-router.get(/ico/, getOtherFile);
+router.get(/.css/, getCss);
+router.get([/ico/, /.js/], getOtherFile);
 
 module.exports = router;

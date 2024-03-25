@@ -1,4 +1,4 @@
-const db = require("../model/pdb.js");
+const db = require("../model/db.js");
 
 const { sendError } = require("./errors.controller.js");
 const { logger, logAllRight } = require("../helpers/logger.js");

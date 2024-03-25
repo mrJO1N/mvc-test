@@ -26,8 +26,8 @@ const getCss = (req, res) => {
       logger.error(404);
     })
     .then((data) => {
-      res.type("text/css").send(data);
+      res.contentType("text/css").header("Content-Type", "text/css").send(data);
     });
 };
 
-module.exports = { getHtml, getOtherFile };
+module.exports = { getHtml, getOtherFile, getCss };

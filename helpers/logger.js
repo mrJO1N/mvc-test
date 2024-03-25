@@ -15,6 +15,6 @@ const logger = createLogger({
 });
 
 const logAllRight = () => {
-  logger.info("all right");
+  logger.info("===== 200 =====");
 };
 module.exports = { logger, logAllRight };

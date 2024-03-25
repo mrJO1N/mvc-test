@@ -1,18 +1,22 @@
-const dotenv = require("dotenv"),
-  Sequelize = require("sequelize");
-dotenv.config({ path: "../" });
+const Pool = require("pg").Pool;
+const { withPath } = require("../helpers/fsHelp");
+require("dotenv").config();
 
-const HOSTNAME = process.env.HOSTNAME ?? "localhost";
+const DATABASE_URL = process.env.DATABASE_URL;
 
-module.exports = new Sequelize("proglib", "postgres", "secret", {
-  host: HOSTNAME,
-  dialect: "postgres",
+let poolConfig;
+if (DATABASE_URL) {
+  poolConfig = { connectionString: DATABASE_URL };
+} else {
+  poolConfig = {
+    host: process.env.PGHOST ?? "localhost",
+    port: process.env.PG_PORT ?? 5432,
+    password: process.env.PG_PASSWORD ?? "Node1",
+    user: process.env.PG_USER ?? "postgres",
+    database: process.env.PG_USERS_DBNAME ?? "users",
+  };
+}
 
-  operatorsAliases: 0,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 3000,
-    idle: 10000,
-  },
-});
+const pool = new Pool(poolConfig);
+
+module.exports = pool;
