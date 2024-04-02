@@ -15,6 +15,30 @@ const logger = createLogger({
 });
 
 const logAllRight = () => {
-  logger.info("===== 200 =====");
+  const date = new Date();
+  logger.info(`${getTimeStr()} ===== 200 ===== `);
 };
-module.exports = { logger, logAllRight };
+
+const setDigitsCount = (count, num) => {
+  const numStr = num.toString();
+  return ["0".repeat(count - numStr.length), ...numStr].join("");
+};
+
+const getTimeStr = () => {
+  const date = new Date();
+
+  const dateArr = [
+      date.getFullYear(),
+      setDigitsCount(2, date.getMonth() + 1),
+      setDigitsCount(2, date.getDate()),
+    ],
+    hourArr = [
+      setDigitsCount(2, date.getHours()),
+      setDigitsCount(2, date.getMinutes()),
+      setDigitsCount(2, date.getSeconds()),
+      setDigitsCount(3, date.getMilliseconds()),
+    ];
+
+  return "[" + dateArr.join(".") + " " + hourArr.join(":") + "] ";
+};
+module.exports = { logger, logAllRight, getTimeStr, setDigitsCount };

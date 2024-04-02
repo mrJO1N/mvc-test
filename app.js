@@ -1,21 +1,24 @@
 /* --------- configure ------------ */
 const express = require("express"),
-  dotenv = require("dotenv");
+  dotenv = require("dotenv"),
+  fsPromiced = require("fs/promises");
 
 const {
     withPath,
     getFilePath,
     getFilePathHtml,
   } = require("./helpers/fsHelp.js"),
-  { logger } = require("./helpers/logger.js");
+  { logger, getTimeStr } = require("./helpers/logger.js");
 
 const homeRouter = require("./routes/home.router.js"),
   someRouter = require("./routes/some.router.js"),
-  usersRouter = require("./routes/users.router.js");
+  usersRouter = require("./routes/users.router.js"),
+  postsRouter = require("./routes/posts.router.js");
 const {
   sendError,
   sendErrorPage,
 } = require("./controllers/errors.controller.js");
+const { getOtherFile } = require("./controllers/main.controller.js");
 
 const app = express();
 app.disable("etag");
@@ -29,19 +32,33 @@ dotenv.config();
 
 const PORT = process.env.PORT ?? 80;
 
-/* ----------- main ------------------ */
+/* ---------- loging ----------------- */
+
 app.use((req, res, next) => {
-  logger.info(
-    `${req.method} ${req.url} ${
-      req.url.includes("api") ? JSON.stringify(req.body) : ""
-    }`
-  );
+  let data = "";
+  if (req.url.includes("api")) data = JSON.stringify(req.body);
+
+  logger.info(`${getTimeStr()} ${req.method} ${req.url} ${data}`);
   next();
 });
+
+/* ----------- main ------------------ */
+
 app.use(homeRouter, someRouter, usersRouter);
+
+app.get("/favicon.ico", (req, res) => {
+  fsPromiced
+    .readFile(withPath(__dirname + "public/ico/favicon-32x32.png"))
+    .catch((err) => {
+      sendErrorPage(req, res, 404);
+      logger.error(`404. ${err}`);
+    })
+    .then((data) => res.send(data));
+});
 
 app.use((req, res) => {
   sendErrorPage(req, res, 404);
+  logger.error(404);
 });
 app.listen(PORT, () =>
   logger.info(

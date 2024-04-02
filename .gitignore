@@ -3,5 +3,4 @@ for git.txt
 /logs
 helpers/_logger.js
 .env
-/createDB.sql
 helpers/_logger (log4js).js

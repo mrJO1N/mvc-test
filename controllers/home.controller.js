@@ -7,18 +7,6 @@ const getHtml = (req, res) => {
   logAllRight();
 };
 
-const getOtherFile = (req, res) => {
-  fsPromiced
-    .readFile(getFilePath(req.url))
-    .catch((err) => {
-      logger.error(404);
-    })
-    .then((data) => {
-      res.send(data);
-    });
-  logAllRight();
-};
-
 const getCss = (req, res) => {
   fsPromiced
     .readFile(getFilePath(req.url), "utf-8")
@@ -27,7 +15,12 @@ const getCss = (req, res) => {
     })
     .then((data) => {
       res.type("text/css").send(data);
+      logAllRight();
     });
 };
 
-module.exports = { getHtml, getOtherFile, getCss };
+module.exports = {
+  getHtml,
+  getOtherFile: require("./main.controller.js").getOtherFile,
+  getCss,
+};

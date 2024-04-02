@@ -4,61 +4,64 @@ const { sendError } = require("./errors.controller.js");
 const { logger, logAllRight } = require("../helpers/logger.js");
 require("dotenv").config();
 
-const DBNAME = "public." + (process.env.USERS_DBNAME ?? "users");
+const DBNAME = "public." + (process.env.POSTS_DBNAME ?? "posts");
 
 /*
-usersJsonFromClient = {
+postsJsonFromClient = {
   id: number,
-  count: number, // count of responce data
-  username: string
+  title: string
+  text: string
+  userId: number
 }
 */
 
 const sqlQuerys = {
-  getUsers(from, to) {
+  getPosts(from, to) {
     return `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${to || 1} ${
       from ? "OFFSET " + from : 0
     };`;
   },
-  getUser(id) {
+  getPost(id) {
     return `SELECT * FROM ${DBNAME} WHERE id = ${id}
       ORDER BY id ASC;`;
   },
-  createUser(username) {
-    // return `INSERT INTO users VALUES (${username});`;
+  createPost(title, content, userId) {
     return `INSERT INTO ${DBNAME} (
-         username) VALUES (
-         '${username}'::character varying)
+         title, content, user_id) VALUES (
+         '${title}'::character varying,
+         '${content}'::text,
+         '${userId}'::integer)
          returning id;`;
   },
-  deleteUser(id) {
+  deletePost(id) {
     return `DELETE FROM ${DBNAME} WHERE (id=${id})`;
   },
-  updateUser(id, newUsername) {
-    return `UPDATE ${DBNAME} SET username='${newUsername}' WHERE id = ${id}`;
+  updatePost(id, newPostname) {
+    return `UPDATE ${DBNAME} SET Postname='${newPostname}' WHERE id = ${id}`;
   },
 };
 
-class User {
+class Post {
   async createOne(req, res) {
-    const { username } = req.body;
+    const { title, content, userId } = req.body;
 
-    if (!username) {
+    if (!title || !content || !userId) {
       res.status(400).send();
-      return logger.error("not enough data");
+      logger.error("not enough data");
+      return;
     }
 
-    const { rows: user } = await db
-      .query(sqlQuerys.createUser(username))
+    const { rows: post } = await db
+      .query(sqlQuerys.createPost(title, content, userId))
       .catch((err) => {
-        logger.error("db error");
+        logger.error("db error" + err);
       });
-    res.send(user);
+    res.send(post);
     logAllRight();
   }
   async getOne(req, res) {
     const { id } = req.params,
-      { rows: user } = await db.query(sqlQuerys.getUser(id)).catch((err) => {
+      { rows: user } = await db.query(sqlQuerys.getPost(id)).catch((err) => {
         logger.error("db error");
       });
 
@@ -66,9 +69,9 @@ class User {
     logAllRight();
   }
   async getSeveral(req, res) {
-    const { from, to } = req.params,
+    const { count } = req.body,
       { rows: users } = await db
-        .query(sqlQuerys.getUsers(from, to))
+        .query(sqlQuerys.getPosts(count))
         .catch((err) => {
           logger.error("db error");
         });
@@ -77,7 +80,7 @@ class User {
   }
   async deleteOne(req, res) {
     const { id } = req.params,
-      { rowCount } = await db.query(sqlQuerys.deleteUser(id)).catch((err) => {
+      { rowCount } = await db.query(sqlQuerys.deletePost(id)).catch((err) => {
         logger.error("db error");
       });
 
@@ -91,17 +94,17 @@ class User {
   }
   async updateOne(req, res) {
     const { id } = req.params,
-      { username: newUsername } = req.body;
+      { username: newPostname } = req.body;
 
-    const { rows } = await db
-      .query(sqlQuerys.updateUser(id, newUsername))
+    const answer = await db
+      .query(sqlQuerys.updatePost(id, newPostname))
       .catch((err) => {
         logger.error("db error");
       });
 
-    res.send(rows);
+    res.send(answer);
     logAllRight();
   }
 }
 
-module.exports = new User();
+module.exports = new Post();
