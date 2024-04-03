@@ -36,8 +36,8 @@ const sqlQuerys = {
   deletePost(id) {
     return `DELETE FROM ${DBNAME} WHERE (id=${id})`;
   },
-  updatePost(id, newPostname) {
-    return `UPDATE ${DBNAME} SET Postname='${newPostname}' WHERE id = ${id}`;
+  updatePost(id, title, content) {
+    return `UPDATE ${DBNAME} SET  title='${title}', content='${content}'  WHERE id = ${id} `;
   },
 };
 
@@ -69,13 +69,13 @@ class Post {
     logAllRight();
   }
   async getSeveral(req, res) {
-    const { count } = req.body,
-      { rows: users } = await db
-        .query(sqlQuerys.getPosts(count))
+    const { from, to } = req.params,
+      { rows: posts } = await db
+        .query(sqlQuerys.getPosts(from, to))
         .catch((err) => {
           logger.error("db error");
         });
-    res.json(users);
+    res.json(posts);
     logAllRight();
   }
   async deleteOne(req, res) {
@@ -94,15 +94,13 @@ class Post {
   }
   async updateOne(req, res) {
     const { id } = req.params,
-      { username: newPostname } = req.body;
+      { title, content } = req.body;
 
-    const answer = await db
-      .query(sqlQuerys.updatePost(id, newPostname))
-      .catch((err) => {
-        logger.error("db error");
-      });
+    await db.query(sqlQuerys.updatePost(id, title, content)).catch((err) => {
+      logger.error("db error");
+    });
 
-    res.send(answer);
+    res.status(200).json({});
     logAllRight();
   }
 }

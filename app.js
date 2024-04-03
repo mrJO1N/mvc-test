@@ -44,7 +44,7 @@ app.use((req, res, next) => {
 
 /* ----------- main ------------------ */
 
-app.use(homeRouter, someRouter, usersRouter);
+app.use(homeRouter, someRouter, usersRouter, postsRouter);
 
 app.get("/favicon.ico", (req, res) => {
   fsPromiced
