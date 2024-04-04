@@ -6,24 +6,44 @@ const db = require("../model/dbPool.js"),
 
 const DBNAME = "public." + (process.env.USERS_DBNAME ?? "users");
 
+const sqlQuerys = {
+  getUsers: (from, to) =>
+    `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${to || 1} ${
+      from ? "OFFSET " + from : 0
+    };`,
+
+  getUser: (id) =>
+    `SELECT * FROM ${DBNAME} WHERE id = ${id}
+    ORDER BY id ASC;`,
+
+  createUser: (username) =>
+    `INSERT INTO ${DBNAME} (
+       username) VALUES (
+       '${username}'::character varying)
+       returning id;`,
+
+  deleteUser: (id) => `DELETE FROM ${DBNAME} WHERE (id=${id})`,
+
+  updateUser: (id, newUsername) =>
+    `UPDATE ${DBNAME} SET username='${newUsername}' WHERE id = ${id}`,
+};
+
 /* main */
 class User {
   async getOne(req, res) {
     const { id } = req.params,
-      { rows: user } = await db
-        .query(this.sqlQuerys.getUser(id))
-        .catch((err) => {
-          logger.error("db: " + err);
-        });
+      { rows: users } = await db.query(sqlQuerys.getUser(id)).catch((err) => {
+        logger.error("db: " + err);
+      });
 
-    res.json(user);
+    res.json(users[0]);
     logAllRight();
   }
   async getSeveral(req, res) {
     const { from, to } = req.params;
 
     const { rows: users } = await db
-      .query(this.sqlQuerys.getUsers(from, to))
+      .query(sqlQuerys.getUsers(from, to))
       .catch((err) => {
         logger.error("db: " + err);
       });
@@ -39,32 +59,30 @@ class User {
       return logger.error("not enough data");
     }
 
-    const { rows: user } = await db
-      .query(this.sqlQuerys.createUser(username))
+    const { rows: users } = await db
+      .query(sqlQuerys.createUser(username))
       .catch((err) => {
         logger.error("db: " + err);
       });
-    res.json(user);
+    res.json(users[0]);
     logAllRight();
   }
   async updateOne(req, res) {
     const { id } = req.params;
     const { username: newUsername } = req.body;
 
-    const { rows } = await db
-      .query(this.sqlQuerys.updateUser(id, newUsername))
-      .catch((err) => {
-        logger.error("db: " + err);
-      });
+    await db.query(sqlQuerys.updateUser(id, newUsername)).catch((err) => {
+      logger.error("db: " + err);
+    });
 
-    res.send(rows);
+    res.json({});
     logAllRight();
   }
   async deleteOne(req, res) {
     const { id } = req.params;
 
     const { rowCount } = await db
-      .query(this.sqlQuerys.deleteUser(id))
+      .query(sqlQuerys.deleteUser(id))
       .catch((err) => {
         logger.error("db: " + err);
       });
@@ -76,29 +94,6 @@ class User {
       res.status(200).json({});
       logAllRight();
     }
-  }
-  constructor() {
-    this.sqlQuerys = {
-      getUsers: (from, to) =>
-        `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${to || 1} ${
-          from ? "OFFSET " + from : 0
-        };`,
-
-      getUser: (id) =>
-        `SELECT * FROM ${DBNAME} WHERE id = ${id}
-        ORDER BY id ASC;`,
-
-      createUser: (username) =>
-        `INSERT INTO ${DBNAME} (
-           username) VALUES (
-           '${username}'::character varying)
-           returning id;`,
-
-      deleteUser: (id) => `DELETE FROM ${DBNAME} WHERE (id=${id})`,
-
-      updateUser: (id, newUsername) =>
-        `UPDATE ${DBNAME} SET username='${newUsername}' WHERE id = ${id}`,
-    };
   }
 }
 
