@@ -8,7 +8,7 @@ const PATH_TO_LOGS =
 const logger = createLogger({
   format: format.combine(format.simple()),
   transports: [
-    new transports.File({ filename: PATH_TO_LOGS, level: "info" }),
+    // new transports.File({ filename: PATH_TO_LOGS, level: "info" }),
     new transports.Console(),
   ],
   level: "debug",

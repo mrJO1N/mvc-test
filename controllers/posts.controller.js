@@ -8,32 +8,6 @@ const db = require("../model/dbPool.js"),
 const DBNAME = "public." + (process.env.POSTS_DBNAME ?? "posts");
 
 /* main */
-const sqlQuerys = {
-  getPosts(from, to) {
-    return `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${to || 1} ${
-      from ? "OFFSET " + from : 0
-    };`;
-  },
-  getPost(id) {
-    return `SELECT * FROM ${DBNAME} WHERE id = ${id}
-      ORDER BY id ASC;`;
-  },
-  createPost(title, content, userId) {
-    return `INSERT INTO ${DBNAME} (
-         title, content, user_id) VALUES (
-         '${title}'::character varying,
-         '${content}'::text,
-         '${userId}'::integer)
-         returning id;`;
-  },
-  deletePost(id) {
-    return `DELETE FROM ${DBNAME} WHERE (id=${id})`;
-  },
-  updatePost(id, title, content) {
-    return `UPDATE ${DBNAME} SET  title='${title}', content='${content}'  WHERE id = ${id} `;
-  },
-};
-
 class Post {
   async createOne(req, res) {
     const { title, content, userId } = req.body;
@@ -92,6 +66,28 @@ class Post {
     res.status(200).json({});
     logAllRight();
   }
+
+  sqlQuerys = {
+    getPosts: (from, to) =>
+      `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${to || 1} ${
+        from ? "OFFSET " + from : 0
+      };`,
+
+    getPost: (id) => `SELECT * FROM ${DBNAME} WHERE id = ${id}
+        ORDER BY id ASC;`,
+
+    createPost: (title, content, userId) => `INSERT INTO ${DBNAME} (
+           title, content, user_id) VALUES (
+           '${title}'::character varying,
+           '${content}'::text,
+           '${userId}'::integer)
+           returning id;`,
+
+    deletePost: (id) => `DELETE FROM ${DBNAME} WHERE (id=${id})`,
+
+    updatePost: (id, title, content) =>
+      `UPDATE ${DBNAME} SET  title='${title}', content='${content}'  WHERE id = ${id} `,
+  };
 }
 
 /* footer */
