@@ -1,16 +1,15 @@
+/* config */
 const { logger } = require("../helpers/logger.js"),
   { getFilePathHtml } = require("../helpers/fsHelp.js");
 
+/* main */
 const sendErrorPage = (req, res, codeError) => {
   res.status(codeError).render(getFilePathHtml("/error.ejs"), {
     errorCode: codeError,
     pageTitle: "error",
   });
-  logger.error(codeError.toString());
+  logger.error(codeError);
 };
 
-const sendError = (req, res, httpErrorCode) => {
-  res.status(httpErrorCode).json({ status: "error" });
-};
-
-module.exports = { sendErrorPage, sendError };
+/* footer */
+module.exports = { sendErrorPage };

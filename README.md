@@ -5,6 +5,7 @@ stak backend:
 
 stak frontend:
 -html, css, js
+-ejs
 
 for my next projects i plan use:
 -- add and 'CHANGELOG.md',

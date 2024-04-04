@@ -1,19 +1,12 @@
-const db = require("../model/db.js");
-
-const { sendError } = require("./errors.controller.js");
-const { logger, logAllRight } = require("../helpers/logger.js");
+/* config */
 require("dotenv").config();
+
+const db = require("../model/dbPool.js"),
+  { logger, logAllRight } = require("../helpers/logger.js");
 
 const DBNAME = "public." + (process.env.USERS_DBNAME ?? "users");
 
-/*
-usersJsonFromClient = {
-  id: number,
-  count: number, // count of responce data
-  username: string
-}
-*/
-
+/* main */
 const sqlQuerys = {
   getUsers(from, to) {
     return `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${to || 1} ${
@@ -25,7 +18,6 @@ const sqlQuerys = {
       ORDER BY id ASC;`;
   },
   createUser(username) {
-    // return `INSERT INTO users VALUES (${username});`;
     return `INSERT INTO ${DBNAME} (
          username) VALUES (
          '${username}'::character varying)
@@ -51,52 +43,57 @@ class User {
     const { rows: user } = await db
       .query(sqlQuerys.createUser(username))
       .catch((err) => {
-        logger.error("db error");
+        logger.error("db: " + err);
       });
-    res.send(user);
+    res.json(user);
     logAllRight();
   }
   async getOne(req, res) {
     const { id } = req.params,
       { rows: user } = await db.query(sqlQuerys.getUser(id)).catch((err) => {
-        logger.error("db error");
+        logger.error("db: " + err);
       });
 
-    res.send(user);
+    res.json(user);
     logAllRight();
   }
   async getSeveral(req, res) {
-    const { from, to } = req.params,
-      { rows: users } = await db
-        .query(sqlQuerys.getUsers(from, to))
-        .catch((err) => {
-          logger.error("db error");
-        });
+    const { from, to } = req.params;
+
+    const { rows: users } = await db
+      .query(sqlQuerys.getUsers(from, to))
+      .catch((err) => {
+        logger.error("db: " + err);
+      });
+
     res.json(users);
     logAllRight();
   }
   async deleteOne(req, res) {
-    const { id } = req.params,
-      { rowCount } = await db.query(sqlQuerys.deleteUser(id)).catch((err) => {
-        logger.error("db error");
+    const { id } = req.params;
+
+    const { rowCount } = await db
+      .query(sqlQuerys.deleteUser(id))
+      .catch((err) => {
+        logger.error("db: " + err);
       });
 
     if (rowCount === 0) {
-      sendError(req, res, 405);
-      logger.warn("it has already been deleted");
+      res.status(405).send();
+      logger.warn("db: it has already been deleted");
     } else {
       res.status(200).json({});
       logAllRight();
     }
   }
   async updateOne(req, res) {
-    const { id } = req.params,
-      { username: newUsername } = req.body;
+    const { id } = req.params;
+    const { username: newUsername } = req.body;
 
     const { rows } = await db
       .query(sqlQuerys.updateUser(id, newUsername))
       .catch((err) => {
-        logger.error("db error");
+        logger.error("db: " + err);
       });
 
     res.send(rows);
@@ -104,4 +101,5 @@ class User {
   }
 }
 
+/* footer */
 module.exports = new User();

@@ -1,26 +1,17 @@
-const fsPromiced = require("fs/promises");
-const { getFilePathHtml, getFilePath } = require("../helpers/fsHelp.js"),
-  { logAllRight, logger } = require("../helpers/logger.js");
+/* config */
+const { getFilePathHtml } = require("../helpers/fsHelp.js"),
+  { logAllRight } = require("../helpers/logger.js"),
+  { getOtherFile, getCss } = require("./main.controller.js");
 
+/* main */
 const getHtml = (req, res) => {
   res.render(getFilePathHtml("/home.ejs"), { pageTitle: "home" });
   logAllRight();
 };
 
-const getCss = (req, res) => {
-  fsPromiced
-    .readFile(getFilePath(req.url), "utf-8")
-    .catch((err) => {
-      logger.error(404);
-    })
-    .then((data) => {
-      res.type("text/css").send(data);
-      logAllRight();
-    });
-};
-
+/* footer */
 module.exports = {
   getHtml,
-  getOtherFile: require("./main.controller.js").getOtherFile,
+  getOtherFile,
   getCss,
 };

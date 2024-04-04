@@ -1,20 +1,13 @@
-const db = require("../model/db.js");
-
-const { sendError } = require("./errors.controller.js");
-const { logger, logAllRight } = require("../helpers/logger.js");
+/* config */
 require("dotenv").config();
+
+const db = require("../model/dbPool.js"),
+  { sendError } = require("./errors.controller.js"),
+  { logger, logAllRight } = require("../helpers/logger.js");
 
 const DBNAME = "public." + (process.env.POSTS_DBNAME ?? "posts");
 
-/*
-postsJsonFromClient = {
-  id: number,
-  title: string
-  text: string
-  userId: number
-}
-*/
-
+/* main */
 const sqlQuerys = {
   getPosts(from, to) {
     return `SELECT * FROM ${DBNAME} ORDER BY id ASC LIMIT ${to || 1} ${
@@ -45,27 +38,21 @@ class Post {
   async createOne(req, res) {
     const { title, content, userId } = req.body;
 
-    if (!title || !content || !userId) {
-      res.status(400).send();
-      logger.error("not enough data");
-      return;
-    }
-
     const { rows: post } = await db
       .query(sqlQuerys.createPost(title, content, userId))
       .catch((err) => {
-        logger.error("db error" + err);
+        logger.error("db: " + err);
       });
-    res.send(post);
+    res.json(post);
     logAllRight();
   }
   async getOne(req, res) {
     const { id } = req.params,
       { rows: user } = await db.query(sqlQuerys.getPost(id)).catch((err) => {
-        logger.error("db error");
+        logger.error("db: " + err);
       });
 
-    res.send(user);
+    res.json(user);
     logAllRight();
   }
   async getSeveral(req, res) {
@@ -73,7 +60,7 @@ class Post {
       { rows: posts } = await db
         .query(sqlQuerys.getPosts(from, to))
         .catch((err) => {
-          logger.error("db error");
+          logger.error("db: " + err);
         });
     res.json(posts);
     logAllRight();
@@ -81,11 +68,12 @@ class Post {
   async deleteOne(req, res) {
     const { id } = req.params,
       { rowCount } = await db.query(sqlQuerys.deletePost(id)).catch((err) => {
-        logger.error("db error");
+        logger.error("db: " + err);
       });
 
     if (rowCount === 0) {
       sendError(req, res, 405);
+      res.status(405).send();
       logger.warn("it has already been deleted");
     } else {
       res.status(200).json({});
@@ -97,7 +85,8 @@ class Post {
       { title, content } = req.body;
 
     await db.query(sqlQuerys.updatePost(id, title, content)).catch((err) => {
-      logger.error("db error");
+      res.status(405).send();
+      logger.error("db: " + err);
     });
 
     res.status(200).json({});
@@ -105,4 +94,5 @@ class Post {
   }
 }
 
+/* footer */
 module.exports = new Post();
