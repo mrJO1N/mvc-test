@@ -10,6 +10,7 @@ stack backend:
 
 - DB: PostgreSQL
 - backend: mvc, express
+- validation: Joi
 
 stack frontend:
 
