@@ -7,8 +7,8 @@ const { withPath } = require("./helpers/fsHelp.js"),
   { logger, getTimeStr } = require("./helpers/logger.js");
 
 const homeRouter = require("./routes/home.router.js"),
-  someRouter = require("./routes/some.router.js"),
-  usersRouter = require("./routes/users.router.js"),
+  someRouter = require("./routes/some.router.js");
+const usersRouter = require("./routes/users.router.js"),
   postsRouter = require("./routes/posts.router.js");
 const { sendErrorPage } = require("./controllers/errors.controller.js");
 
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 /* main */
-app.use(homeRouter, someRouter, usersRouter, postsRouter);
+app.use(homeRouter, someRouter).use(usersRouter, postsRouter);
 
 app.get("/favicon.ico", (req, res) => {
   fsPromiced
@@ -44,6 +44,16 @@ app.get("/favicon.ico", (req, res) => {
       logger.error(404);
     })
     .then((data) => res.send(data));
+});
+
+app.use((req, res, next) => {
+  if (req.url.includes("api")) {
+    console.log("app.js");
+    res.status(400).send();
+    logger.error(400);
+    return;
+  }
+  next();
 });
 
 app.use((req, res) => {

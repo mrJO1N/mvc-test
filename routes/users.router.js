@@ -1,17 +1,18 @@
 /* config */
 const express = require("express");
-const users = require("../controllers/users.controller.js");
+const users = require("../controllers/users.controller.js"),
+  validator = require("../middlewares/validation/users.validator.js");
 
 const router = express.Router();
 
 /* main */
-router.get("/api/users/:id", users.getOne);
-router.get("/api/users/range/:from/:to", users.getSeveral);
+router.get("/api/users/:id", validator.get1, users.getOne);
+router.get("/api/users/range/:from/:to", validator.get10, users.getSeveral);
 
-router.post("/api/users", users.createOne);
+router.post("/api/users", validator.post, users.createOne);
 
-router.patch("/api/users/:id", users.updateOne);
-router.delete("/api/users/:id", users.deleteOne);
+router.patch("/api/users/:id", validator.patch, users.updateOne);
+router.delete("/api/users/:id", validator.delete, users.deleteOne);
 
 /* footer */
 module.exports = router;
