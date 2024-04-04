@@ -1,14 +1,31 @@
-stak backend:
--DB: PostgreSQL
--view engine: ejs
--backend: mvc, express
+I was thinking of making a simple blog application in which users without authentication could post posts...
+but now I have a blank for trying out different technologies!!!
 
-stak frontend:
--html, css, js
--ejs
+this app is deploing with two hosting providers:
+
+- railway: https://mvc-test-production.up.railway.app/
+- render: https://mekl2.onrender.com/
+
+stack backend:
+
+- DB: PostgreSQL
+- backend: mvc, express
+
+stack frontend:
+
+- html, css, js
+- ejs
+
+todo:
+
+- add:
+- - joi for validate data
+- - mocha for tests,
+- - jsdoc for auto generate documentation
+- - redis for caching
 
 for my next projects i plan use:
--- add and 'CHANGELOG.md',
--- mocha for tests,
--- frontend constructors for user frendly interface,
--- tg bot with 'telegram-bot-api' as admin panel or another one interface
+
+- add 'CHANGELOG.md',
+- frontend constructors for user frendly interface,
+- tg bot with 'telegram-bot-api' as admin panel or another one interface
