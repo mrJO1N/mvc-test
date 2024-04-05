@@ -8,8 +8,9 @@ this app is deploing with two hosting providers:
 
 stack backend:
 
+- express
+- pattern: mvc
 - DB: PostgreSQL
-- backend: mvc, express
 - validation: Joi
 
 stack frontend:
@@ -20,12 +21,13 @@ stack frontend:
 todo:
 
 - add:
-- - joi for validate data
-- - mocha for tests,
-- - jsdoc for auto generate documentation
+- - jest unit tests,
+- - supertest api tests
+- - jsdoc generator funcs doc
+- - swagger generator api doc
 - - redis for caching
 
-for my next projects i plan use:
+for my next projects i plan:
 
 - add 'CHANGELOG.md',
 - frontend constructors for user frendly interface,
