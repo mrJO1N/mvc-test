@@ -3,7 +3,7 @@ const express = require("express"),
   dotenv = require("dotenv"),
   fsPromiced = require("fs/promises");
 
-const { withPath } = require("./helpers/fsHelp.js"),
+const { makeWithPath } = require("./helpers/fsHelp.js"),
   { logger, getTimeStr } = require("./helpers/logger.js");
 
 const homeRouter = require("./routes/home.router.js"),
@@ -15,8 +15,8 @@ const { sendErrorPage } = require("./controllers/errors.controller.js");
 const app = express();
 app.disable("etag"); // non browser caching
 app
-  .use(express.static(withPath(__dirname + "/public")))
-  .set("views", withPath(__dirname + "/view"))
+  .use(express.static(makeWithPath(__dirname + "/public")))
+  .set("views", makeWithPath(__dirname + "/view"))
   .set("view engine", "ejs");
 app.use(express.json());
 
@@ -38,7 +38,7 @@ app.use(homeRouter, someRouter).use(usersRouter, postsRouter);
 
 app.get("/favicon.ico", (req, res) => {
   fsPromiced
-    .readFile(withPath(__dirname + "public/ico/favicon-32x32.png"))
+    .readFile(makeWithPath(__dirname + "public/ico/favicon-32x32.png"))
     .catch((err) => {
       res.status(404).send();
       logger.error(404);
@@ -67,3 +67,5 @@ app.listen(PORT, () =>
     `run on ${PORT} port. http://localhost${PORT !== 80 ? ":" + PORT : ""}/`
   )
 );
+
+module.exports = { app };
