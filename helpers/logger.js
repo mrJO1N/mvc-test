@@ -1,8 +1,7 @@
 /* config */
 require("dotenv").config();
 const { transports, format, createLogger } = require("winston");
-const { makeWithPath } = require("../helpers/fsHelp"),
-  { testIsNum } = require("../helpers/main.help");
+const { makeWithPath } = require("../helpers/fsHelp");
 
 const PATH_TO_LOGS =
   process.env.PATH_TO_LOGS ?? makeWithPath(__dirname + "/../logs/l.log");
@@ -20,11 +19,11 @@ const logger = createLogger({
 const logAllRight = () => logger.info(`${getTimeStr()} ===== 200 ===== `);
 
 const setDigitsCount = (count, num) => {
-  if (!testIsNum(count) || !testIsNum(num)) return 0;
+  if (isNaN(Number(count)) || isNaN(Number(num))) return "0";
 
-  const numStr = String(Math.abs(num));
+  const numStr = String(Math.abs(num)).replace(".", "");
+
   if (numStr.length > count) {
-    console.log("lll");
     return "0".repeat(count);
   } else {
     return ["0".repeat(count - numStr.length), ...numStr].join("");
