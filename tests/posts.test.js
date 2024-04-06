@@ -1,18 +1,20 @@
 const supertest = require("supertest");
-let app, userId;
+let app, postId;
 
-const userAbstrObj = expect.objectContaining({
+const postAbstrObj = expect.objectContaining({
+  title: expect.any(String),
+  content: expect.any(String),
   id: expect.any(Number),
-  username: expect.any(String),
+  userId: expect.any(Number),
 });
 
-describe("/api/users", () => {
+describe("/api/posts", () => {
   beforeAll(async () => {
-    userId = 1;
+    postId = 1;
 
     const express = require("express");
     const { logger, getTimeStr } = require("../helpers/logger.js"),
-      router = require("../routes/users.router.js");
+      router = require("../routes/posts.router.js");
 
     app = express();
     app.use(express.json());
@@ -26,36 +28,40 @@ describe("/api/users", () => {
       next();
     });
 
-    app.use(router);
-    app.listen(3001, () => {
-      logger.info("running on port 3001");
+    app.all("*", router);
+    app.listen(8000, () => {
+      logger.info("server listening");
     });
   });
 
   it("POST", async () => {
     // Arrange
-    const username = "test";
+    const newPostJson = {
+      title: "test new post",
+      content: "testing new post content",
+      userId: 2,
+    };
     const expectedResult = { id: expect.any(Number) };
 
     // Act
     const res = await supertest(app)
-      .post("/api/users")
+      .post("/api/posts/")
       .set("Content-Type", "application/json")
-      .send({ username });
+      .send(newPostJson);
 
     // Assert
     expect(res.status).toBe(201);
     expect(res.body).toEqual(expectedResult);
-
-    userId = res.body.id;
+    postId = res.body.id;
   });
+
   it("GET1", async () => {
     // Act
-    const res = await supertest(app).get(`/api/users/${userId}`);
+    const res = await supertest(app).get(`/api/posts/${postId}`);
 
     // Assert
     expect(res.status).toBe(200);
-    expect(res.body).toEqual(userAbstrObj);
+    expect(res.body).toEqual(postAbstrObj);
   });
 
   it("GET10", async () => {
@@ -64,25 +70,28 @@ describe("/api/users", () => {
       to = 10;
 
     // Act
-    const res = await supertest(app).get(`/api/users/range/${from}/${to}`);
+    const res = await supertest(app).get(`/api/posts/range/${from}/${to}`);
 
     // Assert
     expect(res.status).toBe(200);
-    for (const user of res.body) {
-      expect(user).toEqual(userAbstrObj);
+    for (const post of res.body) {
+      expect(post).toEqual(postAbstrObj);
     }
   });
 
   it("PATCH", async () => {
     // Arrange
-    const newUsername = "test new username";
+    const patchedPostJson = {
+      title: "test patc",
+      content: "testing new post content patched",
+    };
     const expectedResult = {};
 
     // Act
     const res = await supertest(app)
-      .patch(`/api/users/${userId}`)
+      .patch(`/api/posts/${postId}`)
       .set("Content-Type", "application/json")
-      .send({ username: newUsername });
+      .send(patchedPostJson);
 
     // Assert
     expect(res.status).toBe(200);
@@ -94,7 +103,7 @@ describe("/api/users", () => {
     const expectedResult = {};
 
     // Act
-    const res = await supertest(app).delete(`/api/users/${userId}`);
+    const res = await supertest(app).delete(`/api/posts/${postId}`);
 
     // Assert
     expect(res.status).toBe(200);
