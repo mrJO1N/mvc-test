@@ -9,9 +9,19 @@ const router = express.Router();
 router.get("/api/users/:id", validator.get1, users.getOne);
 router.get("/api/users/range/:from/:to", validator.get10, users.getSeveral);
 
-router.post("/api/users", validator.post, users.createOne);
+router.post(
+  "/api/users",
+  validator.reqMustHaveBody,
+  validator.post,
+  users.createOne
+);
 
-router.patch("/api/users/:id", validator.patch, users.updateOne);
+router.patch(
+  "/api/users/:id",
+  validator.reqMustHaveBody,
+  validator.patch,
+  users.updateOne
+);
 router.delete("/api/users/:id", validator.delete, users.deleteOne);
 
 /* footer */

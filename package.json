@@ -7,7 +7,7 @@
     "start": "node .",
     "dev": "nodemon .",
     "test": "jest",
-    "devtest": "jest --watchAll"
+    "testdev": "jest --watchAll"
   },
   "keywords": [],
   "author": "",

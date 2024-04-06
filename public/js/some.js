@@ -1,4 +1,4 @@
-import { api } from "./api.js";
+import { api } from "./fetch.api.js";
 const host = api.json;
 
 const page = document.querySelector("#container");

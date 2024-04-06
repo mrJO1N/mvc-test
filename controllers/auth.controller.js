@@ -4,7 +4,7 @@ const { getFilePathHtml } = require("../helpers/fsHelp.js"),
 
 /* main */
 const getHtml = (req, res) => {
-  res.render(getFilePathHtml("/home.ejs"), { pageTitle: "home" });
+  res.render(getFilePathHtml("/auth.ejs"), { pageTitle: "authorization" });
   logAllRight();
 };
 

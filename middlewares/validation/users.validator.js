@@ -4,6 +4,14 @@ const { logger } = require("../../helpers/logger.js");
 
 /* main */
 class usersValidationHandlers {
+  reqMustHaveBody(req, res, next) {
+    if (!req.body) {
+      res.status(400).send();
+      logger.error(400);
+      return;
+    }
+    next();
+  }
   get1(req, res, next) {
     const schemaUrl = Joi.string().pattern(/users\/\d+/);
 
@@ -33,7 +41,7 @@ class usersValidationHandlers {
 
     const error = schemaBody.validate(req.body).error;
     if (error) {
-      res.status(400).json({ badFields: error.details[0].path });
+      res.status(400).json({ badField: error.details[0].path });
       logger.error(400);
       return;
     }

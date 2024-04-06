@@ -36,7 +36,7 @@ class User {
         logger.error("db: " + err);
       });
 
-    res.json(users[0]);
+    res.json(users[0] ?? {});
     logAllRight();
   }
   async getSeveral(req, res) {
@@ -52,7 +52,7 @@ class User {
     logAllRight();
   }
   async createOne(req, res) {
-    const { username } = req.body;
+    const username = req.body.username;
 
     if (!username) {
       res.status(400).send();
@@ -64,7 +64,7 @@ class User {
       .catch((err) => {
         logger.error("db: " + err);
       });
-    res.json(users[0]);
+    res.status(201).json(users[0]);
     logAllRight();
   }
   async updateOne(req, res) {
