@@ -22,6 +22,10 @@ stack frontend:
 todo:
 
 - add:
+
+- - jest unit tests,
+- - supertest api tests
+
 - - jsdoc generator funcs doc
 - - swagger generator api doc
 - - redis for caching
