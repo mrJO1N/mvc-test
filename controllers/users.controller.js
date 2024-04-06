@@ -52,12 +52,7 @@ class User {
     logAllRight();
   }
   async createOne(req, res) {
-    const username = req.body.username;
-
-    if (!username) {
-      res.status(400).send();
-      return logger.error("not enough data");
-    }
+    const { username } = req.body;
 
     const { rows: users } = await db
       .query(sqlQuerys.createUser(username))
