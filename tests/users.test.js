@@ -1,5 +1,5 @@
 const supertest = require("supertest");
-let app, userId;
+let app, userId, username;
 
 const userAbstrObj = expect.objectContaining({
   id: expect.any(Number),
@@ -34,7 +34,7 @@ describe("/api/users", () => {
 
   it("POST", async () => {
     // Arrange
-    const username = "test";
+    username = "test";
     const expectedResult = { id: expect.any(Number) };
 
     // Act
@@ -71,6 +71,15 @@ describe("/api/users", () => {
     for (const user of res.body) {
       expect(user).toEqual(userAbstrObj);
     }
+  });
+
+  it("GET search", async () => {
+    // Act
+    const res = await supertest(app).get(`/api/users/search/${username}`);
+
+    // Assert
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(userAbstrObj);
   });
 
   it("PATCH", async () => {

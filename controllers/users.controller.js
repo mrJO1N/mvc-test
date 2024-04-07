@@ -16,6 +16,9 @@ const sqlQuerys = {
     `SELECT * FROM ${DBNAME} WHERE id = ${id}
     ORDER BY id ASC;`,
 
+  search: (username) =>
+    `SELECT * FROM ${DBNAME} WHERE username = '${username}' ORDER BY username ASC;`,
+
   createUser: (username) =>
     `INSERT INTO ${DBNAME} (
        username) VALUES (
@@ -51,6 +54,19 @@ class User {
     res.json(users);
     logAllRight();
   }
+
+  async search(req, res) {
+    const { username } = req.params,
+      { rows: users } = await db
+        .query(sqlQuerys.search(username))
+        .catch((err) => {
+          logger.error("db: " + err);
+        });
+
+    res.json(users[0] ?? {});
+    logAllRight();
+  }
+
   async createOne(req, res) {
     const { username } = req.body;
 

@@ -9,6 +9,7 @@ const router = express.Router();
 /* main */
 router.get("/api/users/:id", usersValid.get1, users.getOne);
 router.get("/api/users/range/:from/:to", usersValid.get10, users.getSeveral);
+router.get("/api/users/search/:username", usersValid.search, users.search);
 
 router.post(
   "/api/users",

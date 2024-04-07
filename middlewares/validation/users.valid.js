@@ -26,6 +26,18 @@ class usersValidationHandlers {
 
     next();
   }
+
+  search(req, res, next) {
+    const schemaUrl = Joi.string().pattern(/users\/search\/\w{1,20}$/);
+
+    if (schemaUrl.validate(req.url).error) {
+      res.status(400).send();
+      logger.error(400);
+      return;
+    }
+
+    next();
+  }
   post(req, res, next) {
     const schemaBody = Joi.object({
       username: Joi.string().required(),
