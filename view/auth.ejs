@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+
+    <link defer rel="stylesheet" type="text/css" href="css/auth.css" />
+    <link defer rel="stylesheet" type="text/css" href="css/main.css" />
+    <script defer type="module" src="js/auth.js"></script>
+  </head>
+  <body>
+    <div id="page" onload="onLoad()">
+      <div class="form">
+        register:
+        <input
+          type="text"
+          name="username"
+          id="input-username"
+          placeholder="username"
+        />
+        <input type="button" value="send" id="input-submit" />
+      </div>
+    </div>
+  </body>
+</html>

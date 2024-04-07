@@ -2,7 +2,6 @@
 require("dotenv").config();
 
 const db = require("../model/dbPool.js"),
-  { sendError } = require("./errors.controller.js"),
   { logger, logAllRight } = require("../helpers/logger.js");
 
 const DBNAME = "public." + (process.env.POSTS_DBNAME ?? "posts");
@@ -31,12 +30,19 @@ const sqlQuerys = {
 /* main */
 class Post {
   async getOne(req, res) {
-    const { id } = req.params,
-      { rows: posts } = await db.query(sqlQuerys.getPost(id)).catch((err) => {
+    const { id: _id } = req.params,
+      { rows: posts } = await db.query(sqlQuerys.getPost(_id)).catch((err) => {
         logger.error("db: " + err);
       });
 
-    res.json(posts[0]);
+    const { id, content, title } = posts[0],
+      post = {
+        userId: posts[0].user_id,
+        id: Number(id),
+        content,
+        title,
+      };
+    res.json(post);
     logAllRight();
   }
   async getSeveral(req, res) {
@@ -46,6 +52,13 @@ class Post {
         .catch((err) => {
           logger.error("db: " + err);
         });
+
+    for (const key in Object.keys(posts)) {
+      posts[key].id = Number(posts[key].id);
+      posts[key].userId = Number(posts[key].user_id);
+      posts[key].user_id = undefined;
+    }
+
     res.json(posts);
     logAllRight();
   }
@@ -58,7 +71,8 @@ class Post {
         logger.error("db: " + err);
       });
 
-    res.json(posts[0]);
+    posts[0].id = Number(posts[0].id);
+    res.status(201).json(posts[0]);
     logAllRight();
   }
   async updateOne(req, res) {
@@ -66,7 +80,7 @@ class Post {
       { title, content } = req.body;
 
     await db.query(sqlQuerys.updatePost(id, title, content)).catch((err) => {
-      res.status(405).send();
+      res.status(400).send();
       logger.error("db: " + err);
     });
 
@@ -80,8 +94,7 @@ class Post {
       });
 
     if (rowCount === 0) {
-      sendError(req, res, 405);
-      res.status(405).send();
+      res.status(400).send();
       logger.warn("it has already been deleted");
     } else {
       res.status(200).json({});

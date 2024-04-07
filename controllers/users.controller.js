@@ -36,7 +36,7 @@ class User {
         logger.error("db: " + err);
       });
 
-    res.json(users[0]);
+    res.json(users[0] ?? {});
     logAllRight();
   }
   async getSeveral(req, res) {
@@ -54,17 +54,12 @@ class User {
   async createOne(req, res) {
     const { username } = req.body;
 
-    if (!username) {
-      res.status(400).send();
-      return logger.error("not enough data");
-    }
-
     const { rows: users } = await db
       .query(sqlQuerys.createUser(username))
       .catch((err) => {
         logger.error("db: " + err);
       });
-    res.json(users[0]);
+    res.status(201).json(users[0]);
     logAllRight();
   }
   async updateOne(req, res) {

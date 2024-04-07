@@ -5,7 +5,7 @@ const { logger } = require("../../helpers/logger.js");
 /* main */
 class usersValidationHandlers {
   get1(req, res, next) {
-    const schemaUrl = Joi.string().pattern(/posts\/\d+/);
+    const schemaUrl = Joi.string().pattern(/users\/\d+/);
 
     if (schemaUrl.validate(req.url).error) {
       res.status(400).send();
@@ -16,7 +16,7 @@ class usersValidationHandlers {
     next();
   }
   get10(req, res, next) {
-    const schemaUrl = Joi.string().pattern(/posts\/range\/\d+\/\d+/);
+    const schemaUrl = Joi.string().pattern(/users\/range\/\d+\/\d+/);
 
     if (schemaUrl.validate(req.url).error) {
       res.status(400).send();
@@ -28,14 +28,12 @@ class usersValidationHandlers {
   }
   post(req, res, next) {
     const schemaBody = Joi.object({
-      title: Joi.string().max(20).required(),
-      content: Joi.string().min(5).required(),
-      userId: Joi.number().integer().required(),
+      username: Joi.string().required(),
     });
 
     const error = schemaBody.validate(req.body).error;
     if (error) {
-      res.status(400).json({ badFields: error.details[0].path });
+      res.status(400).json({ badField: error.details[0].path });
       logger.error(400);
       return;
     }
@@ -43,10 +41,9 @@ class usersValidationHandlers {
     next();
   }
   patch(req, res, next) {
-    const schemaUrl = Joi.string().pattern(/posts\/\d+/),
+    const schemaUrl = Joi.string().pattern(/users\/\d+/),
       schemaBody = Joi.object({
-        title: Joi.string().max(20).required(),
-        content: Joi.string().min(5).required(),
+        username: Joi.string().required(),
       });
 
     if (schemaUrl.validate(req.url).error) {
@@ -56,7 +53,7 @@ class usersValidationHandlers {
     }
 
     const error = schemaBody.validate(req.body).error;
-    if (error) {
+    if (schemaBody.validate(req.body).error) {
       res.status(400).json({ badFields: error.details[0].path });
       logger.error(400);
       return;

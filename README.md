@@ -12,6 +12,7 @@ stack backend:
 - pattern: mvc
 - DB: PostgreSQL
 - validation: Joi
+- tests: jest, supertest
 
 stack frontend:
 
@@ -21,8 +22,10 @@ stack frontend:
 todo:
 
 - add:
+
 - - jest unit tests,
 - - supertest api tests
+
 - - jsdoc generator funcs doc
 - - swagger generator api doc
 - - redis for caching
