@@ -10,16 +10,45 @@
     <script defer type="module" src="js/auth.js"></script>
   </head>
   <body>
-    <div id="page" onload="onLoad()">
-      <div class="form">
-        register:
-        <input
-          type="text"
-          name="username"
-          id="input-username"
-          placeholder="username"
-        />
-        <input type="button" value="send" id="input-submit" />
+    <div class="page">
+      <div hidden id="register-block">
+        <!-- hidden  -->
+        <div class="register-form">
+          <form id="register-form">
+            <label for="username">register:</label>
+            <input
+              type="text"
+              id="reg-inp-username"
+              name="username"
+              placeholder="username"
+              required
+            />
+
+            <button type="submit">send</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="login-block">
+        <!-- hidden  -->
+        <div class="register-form">
+          <form id="login-form">
+            <label for="username">login:</label>
+            <input
+              type="text"
+              id="login-inp-username"
+              name="username"
+              placeholder="username"
+              required
+            />
+
+            <button type="submit">send</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="after-form">
+        or <input type="button" value="register" id="change-auth-action"></button>
       </div>
     </div>
   </body>

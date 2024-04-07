@@ -35,9 +35,9 @@ app.use((req, res, next) => {
 });
 
 /* main */
-app.all(/api/, usersRouter, postsRouter); // authRouter
+app.all(/api/, usersRouter, postsRouter);
 
-app.use(homeRouter, someRouter);
+app.use(homeRouter, someRouter, authRouter);
 
 app.get("/favicon.ico", (req, res) => {
   fsPromiced
