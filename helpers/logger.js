@@ -16,8 +16,14 @@ const logger = createLogger({
 });
 
 /* main */
+/** alias of logger.info(200) */
 const logAllRight = () => logger.info(`${getTimeStr()} ===== 200 ===== `);
 
+/**
+ * @param {number} num number to be formatted
+ * @param {number} count digits count
+ * @returns {string} formatted numbers string
+ */
 const setDigitsCount = (count, num) => {
   if (isNaN(Number(count)) || isNaN(Number(num))) return "0";
 
@@ -30,6 +36,9 @@ const setDigitsCount = (count, num) => {
   }
 };
 
+/**
+ * @returns {string} date string as "[YYYY.MM.DD HH:MINS:SS:MS]"
+ */
 const getTimeStr = () => {
   const date = new Date();
 

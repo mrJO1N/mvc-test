@@ -3,15 +3,15 @@ const express = require("express"),
   dotenv = require("dotenv"),
   fsPromiced = require("fs/promises");
 
-const { makeWithPath } = require("./helpers/fsHelp.js"),
+const { makeWithPath, getFilePathHtml } = require("./helpers/fsHelp.js"),
   { logger, getTimeStr } = require("./helpers/logger.js");
 
+// routers
 const homeRouter = require("./routes/home.router.js"),
   someRouter = require("./routes/some.router.js"),
   authRouter = require("./routes/auth.router.js");
 const usersRouter = require("./routes/users.router.js"),
   postsRouter = require("./routes/posts.router.js");
-const { sendErrorPage } = require("./controllers/errors.controller.js");
 
 const app = express();
 app.disable("etag"); // non browser caching
@@ -60,7 +60,10 @@ app.use((req, res, next) => {
 });
 
 app.all("*", (req, res) => {
-  sendErrorPage(req, res, 404);
+  res.status(404).render(getFilePathHtml("/error.ejs"), {
+    errorCode: 404,
+    pageTitle: "error",
+  });
   logger.error(404);
 });
 

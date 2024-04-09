@@ -7,7 +7,8 @@
     "start": "node .",
     "dev": "nodemon .",
     "test": "jest",
-    "testdev": "jest --watchAll"
+    "testdev": "jest --watchAll",
+    "doc": "jsdoc -c jsdoc.config.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "jsdoc": "^4.0.2",
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4"
   }
