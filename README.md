@@ -1,10 +1,20 @@
 I was thinking of making a simple blog application in which users without authentication could post posts...
 but now I have a blank for trying out different technologies!!!
 
+---
+
 this app is deploing with two hosting providers:
 
 - railway: https://mvc-test-production.up.railway.app/
 - render: https://mekl2.onrender.com/
+
+run to see doc:
+
+```
+npm run doc
+```
+
+---
 
 stack backend:
 
@@ -13,6 +23,7 @@ stack backend:
 - DB: PostgreSQL
 - validation: Joi
 - tests: jest, supertest
+- doc-generators: jsdoc
 
 stack frontend:
 
@@ -23,7 +34,6 @@ todo:
 
 - add:
 
-- - jsdoc generator funcs doc
 - - swagger generator api doc
 - - redis for caching
 
