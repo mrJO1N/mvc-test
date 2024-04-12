@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./parts/half-head.ejs') %>
+
+    <title><%= pageTitle??"blog_" %></title>
+
+    <script type="module" src="js/blog.js"></script>
+    <link rel="stylesheet" href="css/blog.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="new-post-form">
+        <form id="post-form">
+          <div class="form-row">
+            <label for="title">title:</label>
+            <input
+              type="text"
+              id="new-post-title"
+              name="title"
+              placeholder="title"
+              required
+            />
+          </div>
+          <div class="form-row">
+            <textarea
+              name="content"
+              id="new-post-content"
+              cols="50"
+              rows="10"
+              required
+            ></textarea>
+          </div>
+
+          <button class="form-row" id="submit-btn" type="submit">send</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -9,7 +9,8 @@ const { makeWithPath, getFilePathHtml } = require("./helpers/fsHelp.js"),
 // routers
 const homeRouter = require("./routes/home.router.js"),
   someRouter = require("./routes/some.router.js"),
-  authRouter = require("./routes/auth.router.js");
+  authRouter = require("./routes/auth.router.js"),
+  blogRouter = require("./routes/blog.router.js");
 const usersRouter = require("./routes/users.router.js"),
   postsRouter = require("./routes/posts.router.js");
 
@@ -37,7 +38,7 @@ app.use((req, res, next) => {
 /* main */
 app.all(/api/, usersRouter, postsRouter);
 
-app.use(homeRouter, someRouter, authRouter);
+app.use(homeRouter, someRouter, authRouter, blogRouter);
 
 app.get("/favicon.ico", (req, res) => {
   fsPromiced

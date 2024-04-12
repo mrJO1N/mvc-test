@@ -5,17 +5,21 @@ class Cookie {
         encodeURIComponent(key) + "=" + encodeURIComponent(obj2save[key]);
     }
   }
-
+  saveGlobal(obj2save) {
+    document.cookie = "path=/";
+    this.save(obj2save);
+  }
   read(...keys) {
     const answer = {};
 
     for (const key of [...keys]) {
       const matches = document.cookie.match(
-        new RegExp(
-          "(?:^|; )" +
-            key.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-            "=([^;]*)"
-        )
+        key
+        // new RegExp(
+        //   "(?:^|; )" +
+        //     key?.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        //     "=([^;]*)"
+        // )
       );
 
       if (matches) {

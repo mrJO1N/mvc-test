@@ -7,3 +7,8 @@ button {
   background-color: darkgreen;
   color: aliceblue;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+}

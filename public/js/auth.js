@@ -61,7 +61,7 @@ loginForm.addEventListener("submit", async (event) => {
     alert("uncorrected username!");
   } else {
     alert("you are logged in!");
-    browserApi.cookie.save({ username: username, id: res.id });
+    browserApi.cookie.saveGlobal({ username: username, id: res.id });
   }
 
   console.log(browserApi.cookie.read(["username", "id"]));

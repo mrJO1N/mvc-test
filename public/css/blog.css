@@ -1,0 +1,17 @@
+.form-row {
+  background-color: brown;
+  /* width: 300px; */
+  margin-left: 30vw;
+  margin-right: 30vw;
+  min-width: 300px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#submit-btn {
+  min-width: 30px;
+  background-color: darkgreen;
+  color: aliceblue;
+}

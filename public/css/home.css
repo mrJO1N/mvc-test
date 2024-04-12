@@ -1,2 +1,17 @@
-body {
+header {
+  background-color: blueviolet;
+  position: absolute;
+  width: 100vw;
+  height: 50px;
+}
+main {
+  background-color: rgb(0, 0, 255);
+  color: darkblue;
+  height: 100px;
+  width: 100vw;
+}
+footer {
+  background-color: rgb(67, 19, 112);
+  height: 30px;
+  width: 100vw;
 }
