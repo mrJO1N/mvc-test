@@ -4,7 +4,7 @@ const express = require("express"),
   fsPromiced = require("fs/promises");
 
 const { makeWithPath, getFilePathHtml } = require("./helpers/fsHelp.js"),
-  { logger, getTimeStr } = require("./helpers/logger.js");
+  { logger, getTimeStr, l } = require("./helpers/logger.js");
 
 // routers
 const homeRouter = require("./routes/home.router.js"),
@@ -49,14 +49,19 @@ app.get("/favicon.ico", (req, res) => {
     .then((data) => res.send(data));
 });
 
-app.use((req, res, next) => {
-  if (req.url.includes("api")) {
-    console.log("app.js");
-    res.status(400).send();
-    logger.error(400);
-    return;
-  }
-  next();
+app.options("*", (req, res) => {
+  res
+    .setHeader("Access-Control-Allow-Methods", ["POST", "GET", "OPTIONS"])
+    .status(200)
+    .send();
+  logAllRight();
+});
+
+app.all(/api/, (req, res) => {
+  console.log("app.js");
+  res.status(400).send();
+  logger.error(400);
+  return;
 });
 
 app.all("*", (req, res) => {

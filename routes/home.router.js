@@ -1,12 +1,16 @@
 /* config */
 const express = require("express");
-const { getHtml } = require("../controllers/home.controller.js"),
-  { getOtherFile, getCss } = require("../controllers/main.controller.js");
+const { getFilePathHtml } = require("../helpers/fsHelp.js"),
+  { logAllRight } = require("../helpers/logger.js");
+const { getOtherFile, getCss } = require("../controllers/main.controller.js");
 
 const router = express.Router();
 
 /* main */
-router.get(["/", "/home"], getHtml);
+router.get(["/", "/home"], (req, res) => {
+  res.render(getFilePathHtml("/home.ejs"), { pageTitle: "home" });
+  logAllRight();
+});
 router.get(/.css/, getCss);
 router.get([/ico/, /.js/], getOtherFile);
 

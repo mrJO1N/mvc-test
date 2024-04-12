@@ -8,7 +8,9 @@ this app is deploing with two hosting providers:
 - railway: https://mvc-test-production.up.railway.app/
 - render: https://mekl2.onrender.com/
 
-run to see doc:
+to see api doc: open ./doc/api/api.html
+to see func-s doc:
+run
 
 ```
 npm run doc

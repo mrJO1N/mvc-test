@@ -1,3 +1,9 @@
 body {
   background-color: rgb(91, 91, 194);
+  color: darkblue;
+}
+
+button {
+  background-color: darkgreen;
+  color: aliceblue;
 }

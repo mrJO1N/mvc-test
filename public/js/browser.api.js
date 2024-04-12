@@ -9,7 +9,7 @@ class Cookie {
   read(...keys) {
     const answer = {};
 
-    for (const key of keys) {
+    for (const key of [...keys]) {
       const matches = document.cookie.match(
         new RegExp(
           "(?:^|; )" +

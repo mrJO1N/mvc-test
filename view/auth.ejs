@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('./parts/half-head.ejs') %>
+
     <title><%= pageTitle %></title>
 
     <link defer rel="stylesheet" type="text/css" href="css/auth.css" />
-    <link defer rel="stylesheet" type="text/css" href="css/main.css" />
     <script defer type="module" src="js/auth.js"></script>
   </head>
   <body>
@@ -48,7 +47,7 @@
       </div>
 
       <div id="after-form">
-        or <input type="button" value="register" id="change-auth-action"></button>
+        or <button id="change-auth-action">register</button>
       </div>
     </div>
   </body>

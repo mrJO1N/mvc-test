@@ -16,14 +16,14 @@ changeAuthActionBtnElement.onclick = () => {
     loginBlockElement.style.display = "none";
     registerBlockElement.style.display = "block";
 
-    changeAuthActionBtnElement.value = "login";
+    changeAuthActionBtnElement.innerText = "login";
 
     authAction = "register";
   } else {
     loginBlockElement.style.display = "block";
     registerBlockElement.style.display = "none";
 
-    changeAuthActionBtnElement.value = "register";
+    changeAuthActionBtnElement.innerText = "register";
 
     authAction = "login";
   }
@@ -64,6 +64,6 @@ loginForm.addEventListener("submit", async (event) => {
     browserApi.cookie.save({ username: username, id: res.id });
   }
 
-  console.log(browserApi.cookie.read("username", "id"));
+  console.log(browserApi.cookie.read(["username", "id"]));
   console.log(res);
 });

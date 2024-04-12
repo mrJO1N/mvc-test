@@ -1,11 +1,15 @@
 /* config */
 const express = require("express");
-const { getHtml } = require("../controllers/some.controller.js");
+const { getFilePathHtml } = require("../helpers/fsHelp.js"),
+  { logAllRight } = require("../helpers/logger.js");
 
 const router = express.Router();
 
 /* main */
-router.get("/some", getHtml);
+router.get("/some", (req, res) => {
+  res.render(getFilePathHtml("/some.ejs"), { pageTitle: "some" });
+  logAllRight();
+});
 
 /* footer */
 module.exports = router;
