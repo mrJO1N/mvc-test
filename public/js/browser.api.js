@@ -31,6 +31,4 @@ class Cookie {
   }
 }
 
-class BrowserApi {}
-
-export const browserApi = { browser: new BrowserApi(), cookie: new Cookie() };
+export const browserApi = { cookie: new Cookie() };

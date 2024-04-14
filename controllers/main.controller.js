@@ -1,8 +1,8 @@
 /* config */
 const fsPromiced = require("fs/promises"),
-  { logger, logAllRight } = require("../helpers/logger");
+  { logger, logAllRight } = require("../utils/logger");
 
-const { getFilePath } = require("../helpers/fsHelp");
+const { getFilePath } = require("../utils/fsHelp");
 
 /* main */
 const getCss = (req, res) => {
@@ -13,7 +13,7 @@ const getCss = (req, res) => {
       logger.error(404);
     })
     .then((data) => {
-      res.type("text/css").send(data);
+      res.type("css").send(data);
       logAllRight();
     });
 };

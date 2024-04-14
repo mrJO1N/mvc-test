@@ -1,10 +1,10 @@
 /* config */
 const Joi = require("joi");
-const { logger } = require("../../helpers/logger.js");
+const { logger } = require("../../utils/logger.js");
 
 /* main */
 class usersValidationHandlers {
-  get1(req, res, next) {
+  getOne(req, res, next) {
     const schemaUrl = Joi.string().pattern(/posts\/\d+/);
 
     if (schemaUrl.validate(req.url).error) {
@@ -15,7 +15,7 @@ class usersValidationHandlers {
 
     next();
   }
-  get10(req, res, next) {
+  getRange(req, res, next) {
     const schemaUrl = Joi.string().pattern(/posts\/range\/\d+\/\d+/);
 
     if (schemaUrl.validate(req.url).error) {

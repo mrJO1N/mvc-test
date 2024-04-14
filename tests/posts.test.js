@@ -13,7 +13,7 @@ describe("/api/posts", () => {
     postId = 1;
 
     const express = require("express");
-    const { logger, getTimeStr } = require("../helpers/logger.js"),
+    const { logger, getTimeStr } = require("../utils/logger.js"),
       router = require("../routes/posts.router.js");
 
     app = express();

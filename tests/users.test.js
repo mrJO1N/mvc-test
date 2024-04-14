@@ -11,7 +11,7 @@ describe("/api/users", () => {
     userId = 1;
 
     const express = require("express");
-    const { logger, getTimeStr } = require("../helpers/logger.js"),
+    const { logger, getTimeStr } = require("../utils/logger.js"),
       router = require("../routes/users.router.js");
 
     app = express();

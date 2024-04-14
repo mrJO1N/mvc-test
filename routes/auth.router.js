@@ -1,7 +1,7 @@
 /* config */
 const express = require("express");
-const { logAllRight } = require("../helpers/logger.js"),
-  { getFilePathHtml } = require("../helpers/fsHelp.js");
+const { logAllRight } = require("../utils/logger.js"),
+  { getFilePathHtml } = require("../utils/fsHelp.js");
 const { getOtherFile, getCss } = require("../controllers/main.controller.js");
 
 const router = express.Router();

@@ -1,8 +1,8 @@
 /* config */
 require("dotenv").config();
 
-const db = require("../model/dbPool.js"),
-  { logger, logAllRight } = require("../helpers/logger.js");
+const db = require("../dbPool.js"),
+  { logger, logAllRight } = require("../../utils/logger.js");
 
 const DBNAME = "public." + (process.env.USERS_DBNAME ?? "users");
 
@@ -42,7 +42,7 @@ class User {
     res.json(users[0] ?? {});
     logAllRight();
   }
-  async getSeveral(req, res) {
+  async getRange(req, res) {
     const { from, to } = req.params;
 
     const { rows: users } = await db

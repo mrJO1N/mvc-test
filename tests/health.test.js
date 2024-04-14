@@ -1,4 +1,4 @@
-const { setDigitsCount } = require("../helpers/logger.js");
+const { setDigitsCount } = require("../utils/logger.js");
 
 describe("test logger.js", () => {
   it("setDigitsCount()", () => {

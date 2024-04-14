@@ -1,5 +1,5 @@
 const Pool = require("pg").Pool;
-const { withPath } = require("../helpers/fsHelp");
+const { makeWithPath } = require("../utils/fsHelp");
 require("dotenv").config();
 
 const DATABASE_URL = process.env.DATABASE_URL;

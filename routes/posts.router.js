@@ -1,14 +1,14 @@
 /* config */
 const express = require("express");
-const posts = require("../controllers/posts.controller.js"),
+const posts = require("../db/models/posts.model.js"),
   postsValid = require("../middlewares/validation/posts.valid.js"),
   mainValid = require("../middlewares/validation/main.valid.js");
 
 const router = express.Router();
 
 /* main */
-router.get("/api/posts/:id", postsValid.get1, posts.getOne);
-router.get("/api/posts/range/:from/:to", postsValid.get10, posts.getSeveral);
+router.get("/api/posts/:id", postsValid.getOne, posts.getOne);
+router.get("/api/posts/range/:from/:to", postsValid.getRange, posts.getRange);
 
 router.post(
   "/api/posts",

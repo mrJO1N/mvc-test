@@ -3,8 +3,8 @@ const express = require("express"),
   dotenv = require("dotenv"),
   fsPromiced = require("fs/promises");
 
-const { makeWithPath, getFilePathHtml } = require("./helpers/fsHelp.js"),
-  { logger, getTimeStr, l } = require("./helpers/logger.js");
+const { makeWithPath, getFilePathHtml } = require("./utils/fsHelp.js"),
+  { logger, getTimeStr } = require("./utils/logger.js");
 
 // routers
 const homeRouter = require("./routes/home.router.js"),

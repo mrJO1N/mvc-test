@@ -1,8 +1,8 @@
 /* config */
 require("dotenv").config();
 
-const db = require("../model/dbPool.js"),
-  { logger, logAllRight } = require("../helpers/logger.js");
+const db = require("../dbPool.js"),
+  { logger, logAllRight } = require("../../utils/logger.js");
 
 const DBNAME = "public." + (process.env.POSTS_DBNAME ?? "posts");
 
@@ -45,7 +45,7 @@ class Post {
     res.json(post);
     logAllRight();
   }
-  async getSeveral(req, res) {
+  async getRange(req, res) {
     const { from, to } = req.params,
       { rows: posts } = await db
         .query(sqlQuerys.getPosts(from, to))
